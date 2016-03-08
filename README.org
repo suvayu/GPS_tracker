@@ -1,0 +1,46 @@
+#+options: tags:nil
+
+* Introduction
+This is the source code for a simple GPS tracker built using
+- an [[https://www.arduino.cc/en/Main/ArduinoBoardUno][Arduino]],
+- the [[http://www.seeedstudio.com/wiki/SD_Card_shield_V4.0][SD card shield from seeedstudio]], and
+- the [[https://www.adafruit.com/products/746][Ultimate GPS module from Adafruit]].
+
+It uses the following libraries
+- SD & SPI library from the Arduino IDE distribution
+- Adafruit GPS library
+
+We use ~Make~ to build the project, thanks to the Arduino-Makefile
+project.
+
+* Tasks
+** Hardware components [1/2]				       :docs:circuit:
+*** DONE Logging: Arduino ↔ SD card
+Pins used:
+- [X] CS: 4 (not sure what this is)
+- [X] In: 11
+- [X] Out: 12
+- [X] Clock: 13
+
+*** TODO Location: Arduino ↔ GPS module
+Understand how to connect the board in a circuit with the Arduino
+(https://learn.adafruit.com/adafruit-ultimate-gps)
+- [ ] Send instructions: PIN?
+- [ ] Read/log data: PIN?
+- [ ] How do we know when we have a GPS fix?
+- [ ] Solder button battery (CR1220) backup
+- [ ] Design a simple circuit based on above understanding.
+
+** Software tasks [2/4]						     :coding:
+*** DONE Read/write to SD card
+Example program can be found in the ~test~ branch.
+
+*** TODO Read GPS data over serial connection
+Example ~echo~-ing program from the Adafruit library can be found on
+the ~test~ branch.
+
+*** TODO Final assembly
+- [ ] SD+GPS: how to combine the logic in the setup()+loop() scheme?
+- [ ] On power loss, revert to logging to GPS chip (under button
+  battery power backup).  When power is back, retrieve logs, and
+  resume logging as before.
