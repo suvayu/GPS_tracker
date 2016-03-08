@@ -14,4 +14,5 @@ BOARD_TAG	= uno
 MONITOR_PORT	= /dev/ttyACM0
 
 # master Makefile
-include ./mk/Arduino.mk
+PROJECT		= ${PWD}
+include ${PROJECT}/mk/Arduino.mk
