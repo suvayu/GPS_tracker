@@ -1,0 +1,19 @@
+#!/bin/bash
+
+declare input="$1"
+
+# add block markers with: sed -ie 's/Time:/End^M\n&/g' "$input"
+
+echo "time, date, fix, quality, lat, long"
+
+sed -ne '/^Time:/,/^End/ {
+    1h;1!H;
+    };
+    ${
+        x;
+	s/\n/,/g
+	s/End,/\n/g
+	s/\(Time\|Date\|Location:[^:]\+Maps)\): //g
+    	s/Fix: \([01]\) quality: \([0-9]\+\)/\1,\2/gp
+    	#s/Location:[^:]\+Maps): \([0-9.]\+, [0-9.]\+\)/\1/gp
+    }' "$input"
