@@ -7,9 +7,11 @@ File myFile;
 uint32_t lastsave(0);
 SoftwareSerial mySerial(3, 2);
 Adafruit_GPS GPS(&mySerial);
-#define GPSECHO  true
+#define GPSECHO  false
 boolean usingInterrupt = false;
 void useInterrupt(boolean); // Func prototype keeps Arduino 0023 happy
+
+const char* rowHeaders = "date, time, fix, quality, latitude, longitude, altitude(metres), speed(knots), angle, satellites";
 
 void setup()  
 {
@@ -28,8 +30,8 @@ void setup()
     return;
   }
   //Serial.println("initialization done.");
-  myFile = SD.open("test.txt", FILE_WRITE);
-  myFile.print("GPS Data-");
+  myFile = SD.open("test.csv", FILE_WRITE);
+  myFile.println(rowHeaders);
   myFile.flush();
 }
 
@@ -53,6 +55,24 @@ void useInterrupt(boolean v) {
 }
 
 uint32_t timer = millis();
+
+char* getRow(char *row, Adafruit_GPS& gpsNow)
+{
+  char lat[15], lng[16], alt[9], spd[6], agl[7];
+
+  sprintf(row, "%d/%d/%d, %d:%d:%d, %d, %d, %s, %s, %s, %s, %s, %d", 
+          GPS.day, GPS.month, GPS.year,
+          GPS.hour, GPS.minute, GPS.seconds,
+          GPS.fix,
+          GPS.fixquality,
+          dtostrf(GPS.latitudeDegrees,  14, 10, lat),
+          dtostrf(GPS.longitudeDegrees, 15, 10, lng),
+          dtostrf(GPS.altitude,          8,  2, alt),
+          dtostrf(GPS.speed,             5,  2, spd),
+          dtostrf(GPS.angle,             6,  2, spd),
+          GPS.satellites);
+  return row;
+}
 void loop()                     // run over and over again
 {
   if(myFile){
@@ -71,40 +91,13 @@ void loop()                     // run over and over again
     if (timer > millis())  timer = millis();
     if (millis() - timer > 2000) { 
       timer = millis(); // reset the timer
-      
-      myFile.print("\nTime: ");
-      myFile.print(GPS.hour, DEC); myFile.print(':');
-      myFile.print(GPS.minute, DEC); myFile.print(':');
-      myFile.print(GPS.seconds, DEC); myFile.print('.');
-      myFile.println(GPS.milliseconds);
-      myFile.print("Date: ");
-      myFile.print(GPS.day, DEC); myFile.print('/');
-      myFile.print(GPS.month, DEC); myFile.print("/20");
-      myFile.println(GPS.year, DEC);
-      
-      myFile.print("Fix: "); myFile.print((int)GPS.fix);
-      myFile.print(" quality: "); myFile.println((int)GPS.fixquality);
-      Serial.print("Year: "); Serial.print(GPS.year, DEC); 
-      Serial.print(" Fix: "); Serial.println((int)GPS.fix);
-      if (GPS.fix) {
-        Serial.println("Getting data");
-        myFile.print("Location: ");
-        myFile.print(GPS.latitude, 4); Serial.print(GPS.lat);
-        myFile.print(", "); 
-        myFile.print(GPS.longitude, 4); Serial.println(GPS.lon);
-        myFile.print("Location (in degrees, works with Google Maps): ");
-        myFile.print(GPS.latitudeDegrees, 4);
-        myFile.print(", "); 
-        myFile.println(GPS.longitudeDegrees, 4);
-        
-        myFile.print("Speed (knots): "); Serial.println(GPS.speed);
-        myFile.print("Angle: "); Serial.println(GPS.angle);
-        myFile.print("Altitude: "); Serial.println(GPS.altitude);
-        myFile.print("Satellites: "); Serial.println((int)GPS.satellites);
-      }
+      char row[128];
+      getRow(row, GPS);
+      myFile.println(row);
+      Serial.println(row);
       myFile.flush();
     }
   }
-  else;
-   // Serial.print("File is corrupt");
+  else
+    Serial.print("File is corrupt");
 }
