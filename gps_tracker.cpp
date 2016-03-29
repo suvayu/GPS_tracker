@@ -11,12 +11,23 @@ Adafruit_GPS GPS(&mySerial);
 boolean usingInterrupt = false;
 void useInterrupt(boolean); // Func prototype keeps Arduino 0023 happy
 
-const char* rowHeaders = "date, time, fix, quality, latitude, longitude, altitude(metres), speed(knots), angle, satellites";
+String getFileName()
+{
+  File counter;
+  counter = SD.open(F("counter.txt"), FILE_WRITE);
+  counter.seek(0);
+  uint32_t num = 0;
+  if(counter.size()>0) num = counter.read();
+  counter.seek(0);
+  counter.write(num+1);
+  counter.close();
 
+  String str = String(num);
+  return "GPS"+str+".txt";
+}
 void setup()  
 {
   Serial.begin(115200);
-  //Serial.println("Adafruit GPS library basic test!");
   GPS.begin(9600);
   GPS.sendCommand(PMTK_SET_NMEA_OUTPUT_RMCGGA);
   GPS.sendCommand(PMTK_SET_NMEA_UPDATE_1HZ);   // 1 Hz update rate
@@ -24,14 +35,12 @@ void setup()
   useInterrupt(true);
   delay(1000);
   mySerial.println(PMTK_Q_RELEASE);
-  //Serial.print("Initializing SD card...");
   if (!SD.begin(4)) {
-    Serial.println("initialization failed!");
     return;
   }
-  //Serial.println("initialization done.");
-  myFile = SD.open("test.csv", FILE_WRITE);
-  myFile.println(rowHeaders);
+  String fileName = getFileName();
+  myFile = SD.open(fileName, FILE_WRITE);
+  myFile.println(F("date, time, fix, quality, latitude, longitude, altitude(metres), satellites"));
   myFile.flush();
 }
 
@@ -60,25 +69,21 @@ char* getRow(char *row, Adafruit_GPS& gpsNow)
 {
   char lat[15], lng[16], alt[9], spd[6], agl[7];
 
-  sprintf(row, "%d/%d/%d, %d:%d:%d, %d, %d, %s, %s, %s, %s, %s, %d", 
-          GPS.day, GPS.month, GPS.year,
-          GPS.hour, GPS.minute, GPS.seconds,
-          GPS.fix,
-          GPS.fixquality,
-          dtostrf(GPS.latitudeDegrees,  14, 10, lat),
-          dtostrf(GPS.longitudeDegrees, 15, 10, lng),
-          dtostrf(GPS.altitude,          8,  2, alt),
-          dtostrf(GPS.speed,             5,  2, spd),
-          dtostrf(GPS.angle,             6,  2, spd),
-          GPS.satellites);
+  sprintf(row, "%d/%d/%d, %d:%d:%d, %d, %d, %s, %s, %s, %d", 
+          gpsNow.day, gpsNow.month, gpsNow.year,
+          gpsNow.hour, gpsNow.minute, gpsNow.seconds,
+          gpsNow.fix,
+          gpsNow.fixquality,
+          dtostrf(gpsNow.latitudeDegrees,  14, 10, lat),
+          dtostrf(gpsNow.longitudeDegrees, 15, 10, lng),
+          dtostrf(gpsNow.altitude,          8,  2, alt),
+          gpsNow.satellites);
   return row;
 }
-void loop()                     // run over and over again
+void loop()
 {
   if(myFile){
-    //Serial.print("In Loop");
     if (! usingInterrupt) {
-      // read data from the GPS in the 'main loop'
       char c = GPS.read();
       if (GPSECHO)
         if (c) Serial.print(c);
@@ -87,7 +92,6 @@ void loop()                     // run over and over again
       if (!GPS.parse(GPS.lastNMEA())) 
         return; 
     }
-  
     if (timer > millis())  timer = millis();
     if (millis() - timer > 2000) { 
       timer = millis(); // reset the timer
@@ -99,5 +103,5 @@ void loop()                     // run over and over again
     }
   }
   else
-    Serial.print("File is corrupt");
+    Serial.print(F("File is corrupt"));
 }
