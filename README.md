@@ -17,8 +17,8 @@
 <li><a href="#orgheadline6">2.2.2. <span class="done DONE">DONE</span> Read GPS data over serial connection</a></li>
 <li><a href="#orgheadline7">2.2.3. <span class="todo TODO">TODO</span> Final assembly</a></li>
 <li><a href="#orgheadline8">2.2.4. <span class="done DONE">DONE</span> Log in CSV format</a></li>
-<li><a href="#orgheadline9">2.2.5. <span class="todo TODO">TODO</span> Add numeric keypad and 7-segment display</a></li>
-<li><a href="#orgheadline10">2.2.6. <span class="todo WInP">WInP</span> Reduce code size (85% now)</a></li>
+<li><a href="#orgheadline9">2.2.5. <span class="todo TODO">TODO</span> Add numeric keypad and LCD display (16x2)</a></li>
+<li><a href="#orgheadline10">2.2.6. <span class="todo WInP">WInP</span> Reduce code size (74% now)</a></li>
 </ul>
 </li>
 </ul>
@@ -89,12 +89,12 @@ the `test` branch.
 
 ### DONE Log in CSV format<a id="orgheadline8"></a>
 
-### TODO Add numeric keypad and 7-segment display<a id="orgheadline9"></a>
+### TODO Add numeric keypad and LCD display (16x2)<a id="orgheadline9"></a>
 
 -   [ ] Take input with correction
 -   [ ] Show as you type, confirm pass/fail (use smileys?)
 
-### WInP Reduce code size (85% now)<a id="orgheadline10"></a>
+### WInP Reduce code size (74% now)<a id="orgheadline10"></a>
 
 -   [ ] Profile code for size: how?
     -   No easy way, move constants to Flash memory (see: `PROGMEM`, `F(..)`)
