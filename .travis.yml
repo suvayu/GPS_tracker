@@ -14,6 +14,7 @@ before_install:
   - git submodule update --init --recursive
   - source <(curl -SLs https://raw.githubusercontent.com/adafruit/travis-ci-arduino/master/install.sh)
   - sed -i 's%^MONITOR_PORT.\+$%ARDUINO_DIR    = ${HOME}/arduino_ide%' Makefile
+  - ln -s $PWD $HOME/arduino_ide/libraries/Adafruit_GPS
 install: true
 script:
   - make NOCCACHE=1
