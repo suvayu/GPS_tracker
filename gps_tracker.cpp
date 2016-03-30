@@ -14,7 +14,7 @@ void useInterrupt(boolean); // Func prototype keeps Arduino 0023 happy
 String getFileName()
 {
   File counter;
-  counter = SD.open(F("counter.txt"), FILE_WRITE);
+  counter = SD.open("last", FILE_WRITE);
   counter.seek(0);
   uint32_t num = 0;
   if(counter.size()>0) num = counter.read();
