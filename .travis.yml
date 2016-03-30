@@ -1,0 +1,16 @@
+language: c
+sudo: false
+addons:
+  apt:
+    packages:
+    - gcc-avr
+    - binutils-avr
+    - avr-libc
+    - avrdude
+    - ccache
+before_install:
+  - source <(curl -SLs https://raw.githubusercontent.com/adafruit/travis-ci-arduino/master/install.sh)
+install: true
+script:
+  - git submodule init --recursive
+  - make
