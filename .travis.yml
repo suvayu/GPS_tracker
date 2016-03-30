@@ -11,9 +11,10 @@ addons:
     - avrdude
     - ccache
 before_install:
-  - source <(curl -SLs https://raw.githubusercontent.com/adafruit/travis-ci-arduino/master/install.sh)
-  - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+  - sed -i 's%git@github.com:%https://github.com/%' .gitmodules
   - git submodule update --init --recursive
+  - source <(curl -SLs https://raw.githubusercontent.com/adafruit/travis-ci-arduino/master/install.sh)
+  - sed -i 's%^MONITOR_PORT.\+$%ARDUINO_DIR    = ${HOME}/arduino_ide%' Makefile
 install: true
 script:
   - make
