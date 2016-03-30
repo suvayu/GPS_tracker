@@ -69,7 +69,7 @@ uint32_t timer = millis();
 
 char* getRow(char *row, Adafruit_GPS& gpsNow)
 {
-  char lat[15], lng[16], alt[9], spd[6], agl[7];
+  char lat[15], lng[16], alt[9]; //, spd[6], agl[7];
 
   sprintf(row, "%d/%d/%d, %d:%d:%d, %d, %d, %s, %s, %s, %d", 
           gpsNow.day, gpsNow.month, gpsNow.year,
@@ -82,6 +82,7 @@ char* getRow(char *row, Adafruit_GPS& gpsNow)
           gpsNow.satellites);
   return row;
 }
+
 void loop()
 {
   if(myFile){
