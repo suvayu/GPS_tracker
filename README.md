@@ -30,8 +30,6 @@
 
 # Introduction [![Build Status](https://travis-ci.org/suvayu/GPS_tracker.svg?branch=master)](https://travis-ci.org/suvayu/GPS_tracker)<a id="orgheadline1"></a>
 
-[![Build Status](https://travis-ci.org/suvayu/GPS_tracker.svg?branch=master)](https://travis-ci.org/suvayu/GPS_tracker)
-
 This is the source code for a simple GPS tracker built using
 
 -   an [Arduino](https://www.arduino.cc/en/Main/ArduinoBoardUno),
