@@ -50,11 +50,11 @@ the ~test~ branch.
 *** DONE Log in CSV format
     CLOSED: [2016-03-30 Wed 15:36]
 
-*** TODO Add numeric keypad and 7-segment display
+*** TODO Add numeric keypad and LCD display (16x2)
 - [ ] Take input with correction
 - [ ] Show as you type, confirm pass/fail (use smileys?)
 
-*** WInP Reduce code size (85% now)
+*** WInP Reduce code size (74% now)
     :LOGBOOK:
     - State "WInP"       from "TODO"       [2016-03-30 Wed 15:37]
     :END:
