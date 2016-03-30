@@ -11,20 +11,22 @@ Adafruit_GPS GPS(&mySerial);
 boolean usingInterrupt = false;
 void useInterrupt(boolean); // Func prototype keeps Arduino 0023 happy
 
-String getFileName()
+const char* getFileName()
 {
   File counter;
   counter = SD.open("last", FILE_WRITE);
   counter.seek(0);
-  uint32_t num = 0;
+  unsigned int num = 0;
   if(counter.size()>0) num = counter.read();
   counter.seek(0);
   counter.write(num+1);
   counter.close();
 
-  String str = String(num);
-  return "GPS"+str+".txt";
+  static char filename[10 + 1];
+  sprintf(filename, "GPS%.3u.txt", num);
+  return filename;
 }
+
 void setup()  
 {
   Serial.begin(115200);
@@ -38,8 +40,8 @@ void setup()
   if (!SD.begin(4)) {
     return;
   }
-  String fileName = getFileName();
-  myFile = SD.open(fileName, FILE_WRITE);
+
+  myFile = SD.open(getFileName(), FILE_WRITE);
   myFile.println(F("date, time, fix, quality, latitude, longitude, altitude(metres), satellites"));
   myFile.flush();
 }
