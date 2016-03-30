@@ -1,3 +1,4 @@
+ifndef NOCCACHE
 # Fedora specific: due to ccache
 OVERRIDE_EXECUTABLES = 1
 CC      = /usr/lib64/ccache/$(CC_NAME)
@@ -9,6 +10,7 @@ AR      = /usr/bin/$(AR_NAME)
 SIZE    = /usr/bin/$(SIZE_NAME)
 NM      = /usr/bin/$(NM_NAME)
 AVRDUDE = /usr/bin/avrdude
+endif
 
 # alternate serial monitor (default: screen)
 # MONITOR_CMD	= minicom

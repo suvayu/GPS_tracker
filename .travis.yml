@@ -9,7 +9,6 @@ addons:
     - binutils-avr
     - avr-libc
     - avrdude
-    - ccache
 before_install:
   - sed -i 's%git@github.com:%https://github.com/%' .gitmodules
   - git submodule update --init --recursive
@@ -17,4 +16,4 @@ before_install:
   - sed -i 's%^MONITOR_PORT.\+$%ARDUINO_DIR    = ${HOME}/arduino_ide%' Makefile
 install: true
 script:
-  - make
+  - make NOCCACHE=1
