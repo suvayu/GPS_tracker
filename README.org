@@ -1,6 +1,7 @@
 #+options: tags:nil
 
-* Introduction
+* Introduction [[travis-build:suvayu/GPS_tracker#master][build status]]
+
 This is the source code for a simple GPS tracker built using
 - an [[https://www.arduino.cc/en/Main/ArduinoBoardUno][Arduino]],
 - the [[http://www.seeedstudio.com/wiki/SD_Card_shield_V4.0][SD card shield from seeedstudio]], and
@@ -32,7 +33,7 @@ Understand how to connect the board in a circuit with the Arduino
 - [X] Design a simple circuit based on above understanding.
 - [ ] Add circuit diagram
 
-** Software tasks [2/6] 					     :coding:
+** Software tasks [3/6] 					     :coding:
 *** DONE Read/write to SD card
 Example program can be found in the ~test~ branch.
 
@@ -46,11 +47,16 @@ the ~test~ branch.
   battery power backup).  When power is back, retrieve logs, and
   resume logging as before.
 
-*** TODO Log in CSV format
+*** DONE Log in CSV format
+    CLOSED: [2016-03-30 Wed 15:36]
 
 *** TODO Add numeric keypad and 7-segment display
 - [ ] Take input with correction
 - [ ] Show as you type, confirm pass/fail (use smileys?)
 
-*** TODO Reduce code size (85% now)
+*** WInP Reduce code size (85% now)
+    :LOGBOOK:
+    - State "WInP"       from "TODO"       [2016-03-30 Wed 15:37]
+    :END:
 - [ ] Profile code for size: how?
+  - No easy way, move constants to Flash memory (see: ~PROGMEM~, ~F(..)~)
