@@ -23,7 +23,7 @@ const char* getFileName()
   counter.close();
 
   static char filename[10 + 1];
-  sprintf(filename, "GPS%.3u.txt", num);
+  sprintf(filename, "GPS%.3u.csv", num);
   return filename;
 }
 

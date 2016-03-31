@@ -18,6 +18,7 @@ endif
 # hardware
 BOARD_TAG	= uno
 MONITOR_PORT	= /dev/ttyACM0
+MONITOR_BAUDRATE = 115200
 
 # when using Waveshare UNO PLUS
 # MONITOR_PORT	= /dev/ttyUSB0
